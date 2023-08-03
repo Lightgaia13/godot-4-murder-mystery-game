@@ -5,6 +5,8 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+@onready var can_move = true
+
 #look at mouse variables
 var rayOrigin = Vector3()
 var rayEnd = Vector3()
@@ -26,7 +28,8 @@ func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	
 	#move player
-	move(delta)
+	if can_move: 
+		move(delta)
 
 func move(delta):
 		# Add the gravity.
@@ -66,4 +69,9 @@ func move(delta):
 		var pos = intersection.position
 		$PlayerBody.look_at(Vector3(pos.x, position.y, pos.z), Vector3(0,1,0))
 
+func enable_input(result : bool):
+	can_move = result
 
+@rpc("call_local")
+func change_username(new_username):
+	$Username.text = new_username

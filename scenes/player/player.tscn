@@ -1,8 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3buckkfqd2fm"]
+[gd_scene load_steps=10 format=3 uid="uid://b3buckkfqd2fm"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_appbp"]
+[ext_resource type="Script" path="res://scripts/GUI.gd" id="2_3vgif"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nc5qy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ytoh"]
+albedo_color = Color(0.243137, 0.243137, 0.243137, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ekdlk"]
+top_radius = 0.6
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_dktol"]
 
@@ -29,13 +36,25 @@ shape = SubResource("CapsuleShape3D_nc5qy")
 
 [node name="PlayerBody" type="Node3D" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerBody"]
+[node name="Flashlight" type="MeshInstance3D" parent="PlayerBody"]
+transform = Transform3D(0.251216, 0, 0, 0, -1.0981e-08, 0.251216, 0, -0.251216, -1.0981e-08, 0.397447, 1.07244, -0.936037)
+material_override = SubResource("StandardMaterial3D_3ytoh")
+mesh = SubResource("CylinderMesh_ekdlk")
+skeleton = NodePath("../..")
+
+[node name="LightSource" type="SpotLight3D" parent="PlayerBody/Flashlight"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+light_color = Color(0.905882, 0.905882, 0.470588, 1)
+spot_range = 2.25205
+spot_angle = 40.6498
+
+[node name="Body" type="MeshInstance3D" parent="PlayerBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_dktol")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="PlayerBody"]
-transform = Transform3D(0.682534, 0, 0, 0, 0.174232, 0, 0, 0, 0.476105, 0, 1.57837, -0.484071)
+[node name="Goggles" type="MeshInstance3D" parent="PlayerBody"]
+transform = Transform3D(0.682534, 0, 0, 0, 0.174232, 0, 0, 0, 0.476105, 0, 1.57837, -0.305455)
 material_override = SubResource("StandardMaterial3D_lxptc")
 mesh = SubResource("BoxMesh_o40dj")
 skeleton = NodePath("../..")
@@ -45,3 +64,56 @@ transform = Transform3D(3.57143, 0, 0, 0, 0.924354, 3.44974, 0, -3.44974, 0.9243
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_8et5r")
+
+[node name="Username" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34667, 0)
+billboard = 1
+text = "Player"
+
+[node name="GUI" type="CanvasLayer" parent="."]
+script = ExtResource("2_3vgif")
+
+[node name="PanelContainer" type="PanelContainer" parent="GUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 427.0
+offset_top = 201.0
+offset_right = -427.0
+offset_bottom = -201.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MenuLabel" type="Label" parent="GUI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Menu
+"
+horizontal_alignment = 1
+
+[node name="Settings Button" type="Button" parent="GUI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Username Input" type="LineEdit" parent="GUI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Username"
+alignment = 1
+
+[node name="Quit" type="Button" parent="GUI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="text_submitted" from="GUI/PanelContainer/MarginContainer/VBoxContainer/Username Input" to="GUI" method="_on_username_input_text_submitted"]
+[connection signal="pressed" from="GUI/PanelContainer/MarginContainer/VBoxContainer/Quit" to="GUI" method="_on_quit_pressed"]
