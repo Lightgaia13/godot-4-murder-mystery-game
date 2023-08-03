@@ -69,8 +69,26 @@ func move(delta):
 		var pos = intersection.position
 		$PlayerBody.look_at(Vector3(pos.x, position.y, pos.z), Vector3(0,1,0))
 
+
+func _unhandled_input(event):
+	if not is_multiplayer_authority(): return
+	
+	
+	#Flashlight Toggle
+	if Input.is_action_just_pressed("flashlight"):
+		rpc("toggle_flashlight")
+
+#this is dumb
 func enable_input(result : bool):
 	can_move = result
+
+@rpc("call_local")
+func toggle_flashlight():
+	var flashlight = $PlayerBody/Flashlight
+	if flashlight.visible:
+		flashlight.hide()
+	elif !flashlight.visible:
+		flashlight.show()
 
 @rpc("call_local")
 func change_username(new_username):

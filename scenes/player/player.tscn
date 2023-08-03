@@ -37,7 +37,7 @@ shape = SubResource("CapsuleShape3D_nc5qy")
 [node name="PlayerBody" type="Node3D" parent="."]
 
 [node name="Flashlight" type="MeshInstance3D" parent="PlayerBody"]
-transform = Transform3D(0.251216, 0, 0, 0, -1.0981e-08, 0.251216, 0, -0.251216, -1.0981e-08, 0.397447, 1.07244, -0.936037)
+transform = Transform3D(0.251216, 0, 0, 0, -1.0981e-08, 0.251216, 0, -0.251216, -1.0981e-08, 0.628217, 1.07244, -0.348052)
 material_override = SubResource("StandardMaterial3D_3ytoh")
 mesh = SubResource("CylinderMesh_ekdlk")
 skeleton = NodePath("../..")
