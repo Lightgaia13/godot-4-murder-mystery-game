@@ -5,6 +5,10 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+#look at mouse variables
+var rayOrigin = Vector3()
+var rayEnd = Vector3()
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -46,6 +50,20 @@ func move(delta):
 
 	move_and_slide()
 	
-	#ADDING MOUSE-LOOK AT BEHAVIOR
-	#body.look_at(Vector3(get_viewport().get_mouse_position().x, body.position.y, 
-	#get_viewport().get_mouse_position().y))
+	###############################
+	#MOUSE-LOOK AT BEHAVIOR#
+	var space_state = get_world_3d().direct_space_state
+	var mouse_pos = get_viewport().get_mouse_position()
+	
+	rayOrigin = camera.project_ray_origin(mouse_pos) # set the ray origin
+	rayEnd = rayOrigin + camera.project_ray_normal(mouse_pos) * 2000 # set ray end-point
+	
+	var query = PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd) # create ray query
+	
+	var intersection = space_state.intersect_ray(query) # get the ray hit
+	
+	if not intersection.is_empty(): # check if a valid ray hit exists and rotate toward it
+		var pos = intersection.position
+		$PlayerBody.look_at(Vector3(pos.x, position.y, pos.z), Vector3(0,1,0))
+
+
