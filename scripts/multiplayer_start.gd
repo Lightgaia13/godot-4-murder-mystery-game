@@ -9,6 +9,7 @@ const Player = preload("res://scenes/player/player.tscn")
 const PORT = 9998
 var enet_peer = ENetMultiplayerPeer.new()
 
+var players = {}
 
 func _on_host_button_pressed():
 	main_menu.hide()
