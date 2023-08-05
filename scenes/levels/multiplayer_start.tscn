@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://23cckxol7g4t"]
+[gd_scene load_steps=8 format=3 uid="uid://23cckxol7g4t"]
 
 [ext_resource type="Script" path="res://scripts/multiplayer_start.gd" id="1_h7vsk"]
 [ext_resource type="Texture2D" uid="uid://yh0xfjl855iq" path="res://assets/Seth Unedited.jpg" id="2_w2oe7"]
+[ext_resource type="PackedScene" uid="uid://fptptda68k5v" path="res://assets/testmapv1.blend" id="3_d0kad"]
+[ext_resource type="PackedScene" uid="uid://cqsmjjjajbggx" path="res://scenes/levels/props/lantern.tscn" id="4_b8nfn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_aidjv"]
 sky_top_color = Color(0.631373, 0.803922, 0.984314, 1)
@@ -68,37 +70,25 @@ texture = ExtResource("2_w2oe7")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Level"]
 environment = SubResource("Environment_ugtut")
 
-[node name="Objects" type="Node3D" parent="Level"]
+[node name="Lights" type="Node3D" parent="Level"]
 transform = Transform3D(-0.000296964, 0.000257792, -1, 8.08024e-05, 1, 0.000257774, 1, -8.07458e-05, -0.00029698, 0, 0, 0)
 
-[node name="Floor" type="CSGBox3D" parent="Level/Objects"]
-use_collision = true
-size = Vector3(6, 0.1, 6)
+[node name="Lantern" parent="Level/Lights" instance=ExtResource("4_b8nfn")]
+transform = Transform3D(-0.223789, -1.95651e-08, 2.18279e-11, 1.95669e-08, -0.223789, -9.11271e-13, 0, -9.24594e-12, 0.223789, 8.37993e-06, 0.219602, 2.67263e-05)
 
-[node name="Wall" type="CSGBox3D" parent="Level/Objects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.18979, 0.526459, 0)
-use_collision = true
-size = Vector3(0.287289, 1, 1.9389)
+[node name="Lantern2" parent="Level/Lights" instance=ExtResource("4_b8nfn")]
+transform = Transform3D(-0.223789, -1.95651e-08, 6.54836e-11, 1.95705e-08, -0.223789, -9.14824e-13, 0, -3.1076e-11, 0.223789, 6.70098, 0.21985, -3.06179)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Level/Objects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.478351, 0.249735, 0.263791)
-use_collision = true
-size = Vector3(0.31624, 0.370635, 0.318296)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Level/Objects"]
-transform = Transform3D(1, 0, 0, 0, 1, -7.5957e-12, 0, -1.25766e-12, 1, 0.561212, 0.249405, 1.21975)
-use_collision = true
-size = Vector3(0.31624, 0.370635, 0.318296)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Level/Objects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.478351, 0.249735, -0.40317)
-use_collision = true
-size = Vector3(0.31624, 0.370635, 0.318296)
+[node name="Lantern3" parent="Level/Lights" instance=ExtResource("4_b8nfn")]
+transform = Transform3D(-0.223789, -1.95651e-08, 9.45874e-11, 1.95705e-08, -0.223789, -9.17044e-13, 0, -4.56288e-11, 0.223789, -6.21656, 0.221077, -3.77323)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Level"]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 visible = false
 shadow_enabled = true
+
+[node name="testmapv1" parent="Level" instance=ExtResource("3_d0kad")]
+transform = Transform3D(-2.95476e-05, 2.565e-05, -0.0994988, 8.03975e-06, 0.0994988, 2.56482e-05, 0.0994988, -8.03411e-06, -2.95492e-05, 0, 0, 0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/player/player.tscn")
