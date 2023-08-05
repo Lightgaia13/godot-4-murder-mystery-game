@@ -11,12 +11,12 @@ sky_horizon_color = Color(0.905882, 0.686275, 0.592157, 1)
 ground_bottom_color = Color(0.439216, 0.384314, 0.317647, 1)
 ground_horizon_color = Color(0.956863, 0.74902, 0.658824, 1)
 
-[sub_resource type="Sky" id="Sky_i2atm"]
+[sub_resource type="Sky" id="Sky_ka0ik"]
 sky_material = SubResource("ProceduralSkyMaterial_aidjv")
 
 [sub_resource type="Environment" id="Environment_ugtut"]
 background_mode = 2
-sky = SubResource("Sky_i2atm")
+sky = SubResource("Sky_ka0ik")
 ambient_light_sky_contribution = 0.09
 
 [node name="Multiplayer_World" type="Node3D"]
@@ -93,6 +93,9 @@ transform = Transform3D(-2.95476e-05, 2.565e-05, -0.0994988, 8.03975e-06, 0.0994
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/player/player.tscn")
 spawn_path = NodePath("..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.678484, 1.77882)
 
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Join Button" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Host Button" to="." method="_on_host_button_pressed"]

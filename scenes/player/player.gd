@@ -1,10 +1,20 @@
 extends CharacterBody3D
 
-@onready var camera = $Camera3D
+class_name Player
+enum team_types {good, evil}
+
+@onready var username : String
+@onready var alive : bool = true
+@onready var team : team_types
+@onready var role #add role enum
+@onready var tasks #add task class
+@onready var inventory #add item class
+
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+@onready var camera = $Camera3D
 @onready var can_move = true
 
 #look at mouse variables
@@ -15,7 +25,7 @@ var rayEnd = Vector3()
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _enter_tree():
-	set_multiplayer_authority(str(name).to_int())
+	set_multiplayer_authority(self.name.to_int())
 
 func _ready():
 	if not is_multiplayer_authority(): return
@@ -78,7 +88,7 @@ func _unhandled_input(event):
 	if Input.is_action_just_pressed("flashlight"):
 		rpc("toggle_flashlight")
 
-#this is dumb
+#this is dumb/delet this
 func enable_input(result : bool):
 	can_move = result
 
@@ -90,6 +100,12 @@ func toggle_flashlight():
 	elif !flashlight.visible:
 		flashlight.show()
 
+#change username
 @rpc("call_local")
 func change_username(new_username):
 	$Username.text = new_username
+	username = new_username
+
+@rpc("call_local", "authority", "reliable")
+func change_team(new_team:team_types):
+	team = new_team

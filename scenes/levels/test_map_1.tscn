@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://tj186ynir38a"]
+
+[ext_resource type="PackedScene" uid="uid://cqsmjjjajbggx" path="res://scenes/levels/props/lantern.tscn" id="1_7d0wh"]
+[ext_resource type="Script" path="res://scripts/test_map_1.gd" id="1_b2ps8"]
+[ext_resource type="PackedScene" uid="uid://fptptda68k5v" path="res://assets/testmapv1.blend" id="2_0f7wg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2mhxa"]
+sky_top_color = Color(0.631373, 0.803922, 0.984314, 1)
+sky_horizon_color = Color(0.905882, 0.686275, 0.592157, 1)
+ground_bottom_color = Color(0.439216, 0.384314, 0.317647, 1)
+ground_horizon_color = Color(0.956863, 0.74902, 0.658824, 1)
+
+[sub_resource type="Sky" id="Sky_i2atm"]
+sky_material = SubResource("ProceduralSkyMaterial_2mhxa")
+
+[sub_resource type="Environment" id="Environment_uoasy"]
+background_mode = 2
+sky = SubResource("Sky_i2atm")
+ambient_light_sky_contribution = 0.0
+
+[node name="Test Map 1" type="Node3D"]
+script = ExtResource("1_b2ps8")
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_uoasy")
+
+[node name="Lights" type="Node3D" parent="Environment"]
+transform = Transform3D(-0.000296964, 0.000257792, -1, 8.08024e-05, 1, 0.000257774, 1, -8.07458e-05, -0.00029698, 0, 0, 0)
+
+[node name="Lantern" parent="Environment/Lights" instance=ExtResource("1_7d0wh")]
+transform = Transform3D(-0.223789, -1.95651e-08, 2.18279e-11, 1.95669e-08, -0.223789, -9.11271e-13, 0, -9.24594e-12, 0.223789, 8.37993e-06, 0.219602, 2.67263e-05)
+
+[node name="Lantern2" parent="Environment/Lights" instance=ExtResource("1_7d0wh")]
+transform = Transform3D(-0.223789, -1.95651e-08, 6.54836e-11, 1.95705e-08, -0.223789, -9.14824e-13, 0, -3.1076e-11, 0.223789, 6.70098, 0.21985, -3.06179)
+
+[node name="Lantern3" parent="Environment/Lights" instance=ExtResource("1_7d0wh")]
+transform = Transform3D(-0.223789, -1.95651e-08, 9.45874e-11, 1.95705e-08, -0.223789, -9.17044e-13, 0, -4.56288e-11, 0.223789, -6.21656, 0.221077, -3.77323)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+visible = false
+shadow_enabled = true
+
+[node name="testmapv1" parent="Environment" instance=ExtResource("2_0f7wg")]
+transform = Transform3D(-7.26106e-05, 6.30326e-05, -0.244509, 1.9757e-05, 0.244509, 6.30282e-05, 0.244509, -1.97431e-05, -7.26145e-05, 0, -0.176945, 0)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/player/player.tscn")
+spawn_path = NodePath("../Players")
